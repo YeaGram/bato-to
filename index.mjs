@@ -36,23 +36,24 @@ function getComicData(htmlPage) {
     .toArray();
 }
 
+// axios.get("https://battwo.com/v3x-search?page=1").then((response) => {
+//   const comicPage = response.data;
+//   res.send(getComicData(comicPage));
+// });
+
 app.get("/", (req, res) => {
   axios.get("https://battwo.com/v3x-search?page=1").then((response) => {
-    const comicPage = response.data;
-    res.send(getComicData(comicPage));
+    console.log(response);
   });
   // (async function () {
   //   const domain = "https://battwo.com";
   //   const response = await axios.get(domain + "/v3x-search?page=1");
   //   const data = await response.text();
-
   //   const $data = cheerio.load(data);
   //   const $container = $data("div.border-b-base-200");
-
   //   const $comic = $container
   //     .map(function (i, el) {
   //       const $current = $data(el).attr("data-hk");
-
   //       const $cover = $data(el)
   //         .children(`[data-hk="${replaceDataHk($current, 5, "1")}"]`)
   //         .children()
@@ -64,22 +65,18 @@ app.get("/", (req, res) => {
   //           )}"]`
   //         )
   //         .attr();
-
   //       const $title = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "2")}"]`)
   //         .text();
-
   //       const $otherTitle = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "3")}"]`)
   //         .text();
-
   //       const $studio = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "4")}"]`)
   //         .text();
-
   //       const $rating = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "5")}"]`)
@@ -92,7 +89,6 @@ app.get("/", (req, res) => {
   //         )
   //         .children(":nth-child(2)")
   //         .text();
-
   //       const $follow = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "5")}"]`)
@@ -105,7 +101,6 @@ app.get("/", (req, res) => {
   //         )
   //         .children(":nth-child(2)")
   //         .text();
-
   //       const $review = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "5")}"]`)
@@ -118,7 +113,6 @@ app.get("/", (req, res) => {
   //         )
   //         .children(":nth-child(2)")
   //         .text();
-
   //       const $comments = $data(el)
   //         .children(":nth-child(2)")
   //         .children(`[data-hk="${replaceDataHk($current, 5, "5")}"]`)
@@ -131,7 +125,6 @@ app.get("/", (req, res) => {
   //         )
   //         .children(":nth-child(2)")
   //         .text();
-
   //       return {
   //         title: $title,
   //         otherTitle: $otherTitle,
@@ -150,7 +143,6 @@ app.get("/", (req, res) => {
   //     .toArray();
   //   res.send($comic);
   // })();
-
   // res.send("YOWWWW");
 });
 
