@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
     .then((response) => response.text())
     .then((data) => {
       console.log(data.toString());
+      res.send(data.toString());
       // const comicPage = data;
       // console.log(getComicData(comicPage));
       // res.send(getComicData(data));
