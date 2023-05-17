@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   fetch("https://battwo.com/v3x-search?page=1")
     .then((response) => response.text())
     .then((data) => {
-      console.log(data);
+      console.log(data.toString());
       // const comicPage = data;
       // console.log(getComicData(comicPage));
       // res.send(getComicData(data));
