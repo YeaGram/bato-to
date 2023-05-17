@@ -42,7 +42,7 @@ function getComicData(htmlPage) {
 // });
 
 app.get("/", (req, res) => {
-  axios.get("https://battwo.com/v3x-search?page=1").then((response) => {
+  fetch("https://battwo.com/v3x-search?page=1").then((response) => {
     console.log(response);
   });
   // (async function () {
