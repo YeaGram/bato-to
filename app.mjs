@@ -5,7 +5,12 @@ import * as cheerio from "cheerio";
 const app = express();
 app.use(cors());
 
-const port = 9090;
+function replaceDataHk(string, idx, val) {
+  const splited = string.split("-");
+  splited.splice(idx - 1, 1, val);
+  splited.push("0");
+  return splited.join("-");
+}
 
 app.get("/", (req, res) => {
   (async () => {
@@ -119,13 +124,4 @@ app.get("/", (req, res) => {
   })();
 });
 
-app.listen(port, () => {
-  console.log(port + " listening");
-});
-
-function replaceDataHk(string, idx, val) {
-  const splited = string.split("-");
-  splited.splice(idx - 1, 1, val);
-  splited.push("0");
-  return splited.join("-");
-}
+app.listen(process.env.PORT || 3000);
