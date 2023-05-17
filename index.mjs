@@ -42,9 +42,13 @@ function getComicData(htmlPage) {
 // });
 
 app.get("/", (req, res) => {
-  fetch("https://battwo.com/v3x-search?page=1").then((response) => {
-    console.log(response);
-  });
+  fetch("https://battwo.com/v3x-search?page=1")
+    .then((response) => response.text())
+    .then((data) => {
+      const comicPage = data;
+      console.log(getComicData(comicPage));
+      res.send(getComicData(comicPage));
+    });
   // (async function () {
   //   const domain = "https://battwo.com";
   //   const response = await axios.get(domain + "/v3x-search?page=1");
