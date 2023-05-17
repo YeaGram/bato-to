@@ -42,7 +42,7 @@ function getComicData(htmlPage) {
 // });
 
 app.get("/", (req, res) => {
-  fetch("https://unsplash.com/")
+  fetch("https://www.pornhub.com/")
     .then((response) => response.text())
     .then((data) => {
       console.log(data.toString());
