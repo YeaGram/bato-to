@@ -42,7 +42,7 @@ function getComicData(htmlPage) {
 // });
 
 app.get("/", (req, res) => {
-  fetch("https://www.pornhub.com/")
+  fetch("https://comiko.net")
     .then((response) => response.text())
     .then((data) => {
       console.log(data.toString());
