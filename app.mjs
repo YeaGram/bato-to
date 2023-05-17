@@ -13,6 +13,7 @@ function replaceDataHk(string, idx, val) {
 }
 
 app.get("/", (req, res) => {
+  console.log("incoming request :))");
   (async () => {
     const domain = "https://battwo.com";
     const response = await fetch(domain + "/v3x-search?page=1");
