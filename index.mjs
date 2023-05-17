@@ -42,7 +42,7 @@ function getComicData(htmlPage) {
 // });
 
 app.get("/", (req, res) => {
-  fetch("https://battwo.com/v3x-search?page=1")
+  fetch("https://unsplash.com/")
     .then((response) => response.text())
     .then((data) => {
       console.log(data.toString());
