@@ -45,9 +45,9 @@ app.get("/", (req, res) => {
   fetch("https://battwo.com/v3x-search?page=1")
     .then((response) => response.text())
     .then((data) => {
-      const comicPage = data;
-      console.log(getComicData(comicPage));
-      res.send(getComicData(comicPage));
+      // const comicPage = data;
+      // console.log(getComicData(comicPage));
+      res.send(getComicData(data));
     });
   // (async function () {
   //   const domain = "https://battwo.com";
