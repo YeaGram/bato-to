@@ -30,8 +30,8 @@ export function isProp(prop, defaultValue, inputValue) {
 }
 
 export function GenreValidator(genres) {
-  let excludeGenres = [];
-  let includeGenres = [];
+  const excludeGenres = [];
+  const includeGenres = [];
   let hasExcludeGenre = false;
 
   genres.split(",").forEach((gen) => {

@@ -6,7 +6,6 @@ function replaceDataHk(string, idx, val) {
   splited.push("0");
   return splited.join("-");
 }
-
 function getCover($, selector, dataHK) {
   return $(selector)
     .children(`[data-hk="${replaceDataHk(dataHK, 5, "1")}"]`)
@@ -16,10 +15,32 @@ function getCover($, selector, dataHK) {
     )
     .attr();
 }
+function getId($, selector, dataHK) {
+  const temp = $(selector)
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "1")}"]`)
+    .children()
+    .attr().href;
+
+  return temp.split("/")[2].split("-")[0];
+}
 function getComicTitle($, selector, dataHK) {
   return $(selector)
     .children(":nth-child(2)")
     .children(`[data-hk="${replaceDataHk(dataHK, 5, "2")}"]`)
+    .children(":last-child")
+    .text();
+}
+function getTranslatedLanguage($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "2")}"]`)
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(replaceDataHk(dataHK, 5, "2"), 6, "1"),
+        7,
+        "0"
+      )}"]`
+    )
     .text();
 }
 function getOtherTitle($, selector, dataHK) {
@@ -74,6 +95,105 @@ function getComment($, selector, dataHK) {
     .children(":nth-child(2)")
     .text();
 }
+function getGenres($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "6")}"]`)
+    .children(":not(:nth-child(1))")
+    .text();
+}
+function getOriginLanguage($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "6")}"]`)
+    .children(":nth-child(1)")
+    .text();
+}
+function getLatestChapter($, selector, dataHK) {
+  const title = $(selector)
+    .children(":nth-child(2)")
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(replaceDataHk(dataHK, 5, "7"), 6, "1"),
+        7,
+        "0"
+      )}"]`
+    )
+    .children(":first-child")
+    .text();
+
+  const chapterId = $(selector)
+    .children(":nth-child(2)")
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(replaceDataHk(dataHK, 5, "7"), 6, "1"),
+        7,
+        "0"
+      )}"]`
+    )
+    .children(":first-child")
+    .children()
+    .attr()
+    ?.href?.split("/")[2]
+    .split("-")[0];
+
+  const time = $(selector)
+    .children(":nth-child(2)")
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(replaceDataHk(dataHK, 5, "7"), 6, "1"),
+        7,
+        "0"
+      )}"]`
+    )
+    .children(":last-child")
+    .children(`:last-child`)
+    .children(":last-child");
+
+  const uploader = $(selector)
+    .children(":nth-child(2)")
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(replaceDataHk(dataHK, 5, "7"), 6, "1"),
+        7,
+        "0"
+      )}"]`
+    )
+    .children(`:last-child`)
+    .children(
+      `[data-hk="${replaceDataHk(
+        replaceDataHk(
+          replaceDataHk(
+            replaceDataHk(replaceDataHk(dataHK, 5, "7"), 6, "1"),
+            7,
+            "0"
+          ),
+          8,
+          "2"
+        ),
+        9,
+        "0"
+      )}"]`
+    )
+    .children()
+    .children();
+
+  if (title !== "") {
+    return {
+      title,
+      chapterId,
+      time: time.attr("time"),
+      text: time.text(),
+      uploader: {
+        name: uploader.attr()?.href.split("/")[2].split("-").pop(0),
+        uploaderId: uploader.attr()?.href.split("/")[2].split("-")[0],
+        avatarUrl: uploader.children().attr()?.src,
+      },
+    };
+  } else {
+    return {};
+  }
+}
 
 export default function getComicData(htmlPage) {
   const comic = cheerio.load(htmlPage);
@@ -84,27 +204,24 @@ export default function getComicData(htmlPage) {
       const dataHK = comic(el).attr("data-hk");
 
       const args = [comic, el, dataHK];
-      const cover = getCover(...args);
-      const comicTitle = getComicTitle(...args);
-      const otherTitle = getOtherTitle(...args);
-      const studio = getStudio(...args);
-      const rating = getRating(...args);
-      const follow = getFollow(...args);
-      const review = getReview(...args);
-      const comment = getComment(...args);
 
       return {
-        title: comicTitle,
-        otherTitle: otherTitle.split("/"),
-        studio: studio.split("/"),
-        rating: rating,
-        follow: follow,
-        review: review,
-        comment: comment,
+        id: getId(...args),
+        originalLanguage: getOriginLanguage(...args),
+        translatedLanguage: getTranslatedLanguage(...args),
+        title: getComicTitle(...args),
+        otherTitle: getOtherTitle(...args).split("/"),
+        studio: getStudio(...args).split("/"),
+        rating: getRating(...args),
+        follow: getFollow(...args),
+        review: getReview(...args),
+        comment: getComment(...args),
+        genres: getGenres(...args).split(","),
+        latestChapter: getLatestChapter(...args),
         cover: {
-          name: cover.title,
-          src: cover.src,
-          altName: cover.alt,
+          name: getCover(...args).title,
+          src: getCover(...args).src,
+          altName: getCover(...args).alt,
         },
       };
     })
