@@ -21,6 +21,12 @@ function getCover($, selector, dataHK) {
     )
     .attr();
 }
+function getComicTitle($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "2")}"]`)
+    .text();
+}
 
 function getComicData(htmlPage) {
   const comic = cheerio.load(htmlPage);
@@ -29,11 +35,35 @@ function getComicData(htmlPage) {
   return comicContainer
     .map((i, el) => {
       const dataHK = comic(el).attr("data-hk");
-      const cover = getCover(comic, el, dataHK);
-      return cover.title;
+
+      const args = [comic, el, dataHK];
+      const cover = getCover(...args);
+      const comicTitle = getComicTitle(...args);
+
+      return {
+        title: comicTitle,
+        cover: {
+          name: cover.title,
+        },
+      };
     })
     .toArray();
 }
+
+app.get("/", (req, res) => {
+  try {
+    fetch("https://battwo.com/v3x-search?page=1")
+      .then((res) => res.text())
+      .then((data) => {
+        res.send(getComicData(data));
+        console.log(getComicData(data));
+      });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.listen(process.env.PORT || 3000);
 
 // class comicScrapper {
 //   constructor(htmlPage) {}
@@ -150,21 +180,6 @@ function getComicData(htmlPage) {
 // } catch (error) {
 //   console.error(error);
 // }
-
-app.get("/", (req, res) => {
-  try {
-    fetch("https://battwo.com/v3x-search?page=1")
-      .then((res) => res.text())
-      .then((data) => {
-        res.send(getComicData(data));
-        console.log(getComicData(data));
-      });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-app.listen(process.env.PORT || 3000);
 
 // axios.get("").then((response) => {
 //   const comicPage = response.data;
