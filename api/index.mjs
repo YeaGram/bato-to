@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import * as cheerio from "cheerio";
-import axios from "axios";
 
 const app = express();
 app.use(cors());
@@ -37,13 +36,20 @@ function getComicData(htmlPage) {
 }
 
 app.get("/", (req, res) => {
-  axios.get("https://battwo.com/v3x-search?page=1").then((response) => {
-    const comicPage = response.data;
-    res.send(getComicData(comicPage));
-  });
+  fetch("https://battwo.com/v3x-search?page=1")
+    .then((res) => res.text())
+    .then((data) => {
+      res.send(getComicData(data));
+      console.log(getComicData(data));
+    });
 });
 
 app.listen(process.env.PORT || 3000);
+
+// axios.get("").then((response) => {
+//   const comicPage = response.data;
+//   res.send(getComicData(comicPage));
+// });
 
 // const comicPage = data;
 // console.log(getComicData(comicPage));
