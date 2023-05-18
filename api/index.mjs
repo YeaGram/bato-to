@@ -39,8 +39,9 @@ app.get("/", (req, res) => {
   fetch("https://comiko.net")
     .then((response) => response.text())
     .then((data) => {
-      console.log(data.toString());
-      res.send(data.toString());
+      res.send({
+        data: data,
+      });
     });
 });
 
