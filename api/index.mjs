@@ -122,23 +122,13 @@ class comicScrapper {
       .attr();
   }
 }
-try {
-  fetch("https://battwo.com/v3x-search?page=1")
-    .then((res) => res.text())
-    .then((data) => {
-      console.log(new comicScrapper().map(data));
-    });
-} catch (error) {
-  console.error(error);
-}
 
 app.get("/", (req, res) => {
   try {
     fetch("https://battwo.com/v3x-search?page=1")
       .then((res) => res.text())
       .then((data) => {
-        res.send(getComicData(data));
-        console.log(getComicData(data));
+        console.log(new comicScrapper().map(data));
       });
   } catch (error) {
     console.error(error);
