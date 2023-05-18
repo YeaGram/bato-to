@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import getComicData from "./batoto/comic.mjs";
-import { isProp } from "./functions/props.mjs";
+import { isProp, GenreValidator } from "./functions/props.mjs";
 
 const app = express();
 const domain = "https://battwo.com";
@@ -14,8 +14,21 @@ app.get("/browse", (req, res) => {
   let order = req.query.order;
   order = isProp("order", "field_score", order);
 
+  let lang = req.query.lang || "id";
+  lang = isProp("translatedLanguage", "", lang);
+
+  let orig = req.query.orig || "";
+  lang = isProp("originaLanguage", "", lang);
+
+  let genres = req.query.genres || "";
+  genres = GenreValidator(genres);
+
+  let chapters = req.query.chapters || "";
+
+  const url = `${domain}/v3x-search?sort=${order}&page=${page}&lang=${lang}&orig=${orig}&genres=${genres}&chapters=${chapters}`;
+
   try {
-    fetch(`${domain}/v3x-search?sort=${order}&page=${page}`)
+    fetch(url)
       .then((res) => res.text())
       .then((data) => {
         res.send(getComicData(data));
