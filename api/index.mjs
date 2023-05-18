@@ -27,6 +27,18 @@ function getComicTitle($, selector, dataHK) {
     .children(`[data-hk="${replaceDataHk(dataHK, 5, "2")}"]`)
     .text();
 }
+function getOtherTitle($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "3")}"]`)
+    .text();
+}
+function getStudio($, selector, dataHK) {
+  return $(selector)
+    .children(":nth-child(2)")
+    .children(`[data-hk="${replaceDataHk(dataHK, 5, "4")}"]`)
+    .text();
+}
 
 function getComicData(htmlPage) {
   const comic = cheerio.load(htmlPage);
@@ -39,9 +51,13 @@ function getComicData(htmlPage) {
       const args = [comic, el, dataHK];
       const cover = getCover(...args);
       const comicTitle = getComicTitle(...args);
+      const otherTitle = getOtherTitle(...args);
+      const studio = getStudio(...args);
 
       return {
         title: comicTitle,
+        otherTitle: otherTitle.split("/"),
+        studio: studio.split("/"),
         cover: {
           name: cover.title,
         },
