@@ -1,11 +1,6 @@
 import * as cheerio from "cheerio";
+import { replaceDataHk } from "../utils/module.mjs";
 
-function replaceDataHk(string, idx, val) {
-  const splited = string.split("-");
-  splited.splice(idx - 1, 1, val);
-  splited.push("0");
-  return splited.join("-");
-}
 function getCover($, selector, dataHK) {
   return $(selector)
     .children(`[data-hk="${replaceDataHk(dataHK, 5, "1")}"]`)
@@ -103,11 +98,15 @@ function getGenres($, selector, dataHK) {
     .text();
 }
 function getOriginLanguage($, selector, dataHK) {
-  return $(selector)
-    .children(":nth-child(2)")
-    .children(`[data-hk="${replaceDataHk(dataHK, 5, "6")}"]`)
-    .children(":nth-child(1)")
-    .text();
+  return (
+    $(selector)
+      .children(":nth-child(2)")
+      .children(`[data-hk="${replaceDataHk(dataHK, 5, "6")}"]`)
+      .children(
+        `[data-hk="${replaceDataHk(replaceDataHk(dataHK, 5, "6"), 6, "1")}"]`
+      )
+      .text() || ""
+  );
 }
 function getLatestChapter($, selector, dataHK) {
   const title = $(selector)
@@ -194,7 +193,6 @@ function getLatestChapter($, selector, dataHK) {
     return {};
   }
 }
-
 export default function getComicData(htmlPage) {
   const comic = cheerio.load(htmlPage);
   const comicContainer = comic("div.border-b-base-200");
