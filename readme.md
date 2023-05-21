@@ -1,3 +1,6 @@
-# Yo Maz
+#Yo!
 
-hehe
+#### Path
+
+- /browse
+- /comic/{id}
