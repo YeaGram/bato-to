@@ -6,8 +6,7 @@ import { router as browse } from "./route/browse.mjs";
 import { router as search } from "./route/searched.mjs";
 import { router as comicDetail } from "./route/comicDetail.mjs";
 
-import { props } from "./midlleware/props.mjs";
-import { userAgent } from "./midlleware/userAgent.mjs";
+import { userAgent, props } from "./midlleware/midlleware.mjs";
 
 const app = express();
 
