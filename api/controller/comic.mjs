@@ -38,7 +38,7 @@ export function getSearched(req, res) {
 export function getComicDetail(req, res) {
   const { id } = req.params;
 
-  const url = `https://battwo.com/title/${id}`;
+  const url = `${comicProps.domain}/title/${id}`;
   try {
     fetch(url)
       .then((res) => res.text())
@@ -75,16 +75,27 @@ export function getBrowse(req, res) {
 }
 
 export function getReadComic(req, res) {
-  const { id } = req.params;
+  const { chapter } = req.query;
+  const path = req.path;
 
-  const url = `https://battwo.com/title/${id}`;
-  try {
-    fetch(url)
-      .then((res) => res.text())
-      .then((htmlPage) => {
-        getReadComicData(htmlPage);
-      });
-  } catch (error) {
-    console.error(error);
+  if (chapter === "" || chapter === undefined) {
+    res.send({
+      error: "No chapter specified",
+    });
+  } else {
+    const url = `${comicProps.domain}/title${path}/${chapter}`;
+    try {
+      fetch(url)
+        .then((res) => res.text())
+        .then((htmlPage) => {
+          if (htmlPage.length > 0) {
+            res.send(getReadComicData(htmlPage));
+          } else {
+            res.send({ error: "invalid id" });
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

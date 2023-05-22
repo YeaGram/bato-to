@@ -27,6 +27,7 @@ export function GetBrowse() {
 
   return router;
 }
+
 export function GetReadComic() {
   const router = express.Router();
   router.get("/:id", getReadComic);

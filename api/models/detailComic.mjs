@@ -137,7 +137,7 @@ function getSummary($) {
 
   const firstUploaderTemp = $(".whitespace-pre-wrap > a:nth-child(1)") || "";
   const firstUploader = {
-    name: firstUploaderTemp?.attr("href")?.split("/")[2]?.split("-")[1],
+    name: firstUploaderTemp?.text(),
     id: firstUploaderTemp?.attr("href")?.split("/")[2]?.split("-")[0],
     time: $(".whitespace-pre-wrap > time:nth-child(3)").text() + " GMT",
   };
