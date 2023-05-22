@@ -2,10 +2,12 @@ import express from "express";
 import cors from "cors";
 import * as uAgent from "express-useragent";
 
-import { router as browse } from "./route/browse.mjs";
-import { router as search } from "./route/searched.mjs";
-import { router as comicDetail } from "./route/comicDetail.mjs";
-
+import {
+  GetSearched,
+  GetComicDetail,
+  GetBrowse,
+  GetReadComic,
+} from "./route/comicRoute.mjs";
 import { userAgent, props } from "./midlleware/midlleware.mjs";
 
 const app = express();
@@ -20,9 +22,10 @@ app.use(uAgent.express());
 app.use(props);
 app.use(userAgent);
 
-app.use("/browse", browse);
-app.use("/searched", search);
-app.use("/comic", comicDetail);
+app.use("/browse", GetBrowse());
+app.use("/searched", GetSearched());
+app.use("/comic", GetComicDetail());
+app.use("/read", GetReadComic());
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("listening on port");
