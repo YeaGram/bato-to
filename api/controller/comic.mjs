@@ -57,11 +57,12 @@ export function getBrowse(req, res) {
   const lang = isHadProp("translatedLanguage", "", req.query.lang);
   const orig = isHadProp("originaLanguage", "", req.query.orig);
   const status = isHadProp("status", "", req.query.status);
+  const upload = isHadProp("status", "", req.query.status);
   const genres = GenreValidator(req.query.genres || "");
   const chapters = req.query.chapters || "";
   const search = req.query.search || "";
 
-  const url = `${comicProps.domain}/v3x-search?word=${search}&sort=${order}&page=${page}&lang=${lang}&orig=${orig}&genres=${genres}&chapters=${chapters}&status=${status}`;
+  const url = `${comicProps.domain}/v3x-search?word=${search}&sort=${order}&page=${page}&lang=${lang}&orig=${orig}&genres=${genres}&chapters=${chapters}&status=${status}&upload=${upload}`;
   console.log(url);
 
   try {

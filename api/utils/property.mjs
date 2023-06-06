@@ -18,7 +18,7 @@ export const comicProps = {
     "views_d000",
   ],
   genres: plainGenre.split(","),
-  status: ["complete", "pending", "ongoing", "hiatus", "cancelled"],
+  status: ["completed", "pending", "ongoing", "hiatus", "cancelled"],
   originaLanguage: language.split(","),
   translatedLanguage: language.split(","),
 };
