@@ -27,6 +27,6 @@ app.use("/searched", GetSearched());
 app.use("/comic", GetComicDetail());
 app.use("/read", GetReadComic());
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("listening on port");
 });
